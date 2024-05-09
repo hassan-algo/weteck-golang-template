@@ -26,5 +26,23 @@ type APIHandler interface {
 }
 
 type APIRouter interface {
-	Connect(string, APIHandler, *echo.Echo) error
+	Connect(string, APIHandler, *echo.Echo, AuthHandler) error
+}
+
+type AuthBusiness interface {
+	Connect(*db.DB) error
+	GET() (interface{}, error)
+	POST(interface{}) error
+	Authenticate(interface{}) error
+}
+
+type AuthHandler interface {
+	Connect(AuthBusiness) error
+	GET(echo.Context) error
+	POST(echo.Context) error
+	Authenticate(func(ec echo.Context) error) func(ec echo.Context) error
+}
+
+type AuthRouter interface {
+	Connect(string, AuthHandler, *echo.Echo) error
 }

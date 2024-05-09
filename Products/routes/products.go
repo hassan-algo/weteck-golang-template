@@ -12,8 +12,9 @@ func NewProductRoutes() *ProductRoutes {
 	return &ProductRoutes{}
 }
 
-func (r *ProductRoutes) Connect(endPoint string, productHandler apis.APIHandler, echo *echo.Echo) error {
-	echo.GET(endPoint, productHandler.GET)
+func (r *ProductRoutes) Connect(endPoint string, productHandler apis.APIHandler, echo *echo.Echo, auth apis.AuthHandler) error {
+
+	echo.GET(endPoint, auth.Authenticate(productHandler.GET))
 	echo.POST(endPoint, productHandler.POST)
 	echo.PUT(endPoint, productHandler.PUT)
 	echo.DELETE(endPoint, productHandler.DELETE)
