@@ -1,19 +1,24 @@
 package main
 
 import (
+	"fmt"
+	"os"
+	"os/signal"
+
+	"github.com/labstack/echo/v4"
+
 	"example.com/apis"
 	"example.com/business"
 	"example.com/db"
 	"example.com/handlers"
 	"example.com/routes"
-	"github.com/labstack/echo/v4"
 )
 
 func main() {
 
 	e := echo.New()
 
-	postgres := db.NewDBConnection("connectionString")
+	postgres := db.NewDatabaseConnection()
 
 	authAPI := apis.NewAUTH("/auth",
 		postgres,
@@ -26,12 +31,23 @@ func main() {
 		routes.NewProductRoutes(),
 		handlers.NewProductHandler(),
 		business.NewProductBusiness(), e, authAPI)
+
 	apis.NewAPI("/products",
 		postgres,
 		routes.NewProductRoutes(),
 		handlers.NewProductHandler(),
 		business.NewProductBusiness(), e, authAPI)
 
-	e.Start(":8080")
+	sigChannel := make(chan os.Signal)
+	signal.Notify(sigChannel, os.Interrupt)
+	signal.Notify(sigChannel, os.Kill)
+
+	go func() {
+		e.Start(":8081")
+	}()
+
+	<-sigChannel
+	postgres.Con.Close()
+	fmt.Println("Database connection closed!")
 
 }

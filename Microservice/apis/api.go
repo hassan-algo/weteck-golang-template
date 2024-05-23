@@ -1,12 +1,13 @@
 package apis
 
 import (
-	"example.com/db"
 	"github.com/labstack/echo/v4"
+
+	"example.com/db"
 )
 
 type APIBusiness interface {
-	Connect(*db.DB) error
+	Connect(*db.DatabaseConnection) error
 	GET() (interface{}, error)
 	POST(interface{}) error
 	MULTIPOST(interface{}) error
@@ -30,17 +31,15 @@ type APIRouter interface {
 }
 
 type AuthBusiness interface {
-	Connect(*db.DB) error
-	GET() (interface{}, error)
-	POST(interface{}) error
-	Authenticate(interface{}) error
+	Connect(*db.DatabaseConnection) error
+	Authenticate(string, string) (error, string, string)
+	Authentication(string, string) (interface{}, error)
 }
 
 type AuthHandler interface {
 	Connect(AuthBusiness) error
-	GET(echo.Context) error
-	POST(echo.Context) error
-	Authenticate(func(ec echo.Context) error) func(ec echo.Context) error
+	Authentication(echo.Context) error
+	Authenticate(func(ec echo.Context) error, ...string) func(ec echo.Context) error
 }
 
 type AuthRouter interface {

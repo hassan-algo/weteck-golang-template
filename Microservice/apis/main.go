@@ -1,8 +1,9 @@
 package apis
 
 import (
-	"example.com/db"
 	"github.com/labstack/echo/v4"
+
+	"example.com/db"
 )
 
 type API struct {
@@ -19,7 +20,7 @@ type AUTH struct {
 	ApiBusiness AuthBusiness
 }
 
-func NewAPI(endpoint string, postgres *db.DB, routes APIRouter, handlers APIHandler, business APIBusiness, echo *echo.Echo, authAPI *AUTH) *API {
+func NewAPI(endpoint string, postgres *db.DatabaseConnection, routes APIRouter, handlers APIHandler, business APIBusiness, echo *echo.Echo, authAPI *AUTH) *API {
 	newAPI := &API{
 		ApiEndpoint: endpoint,
 		ApiHandler:  handlers,
@@ -32,7 +33,7 @@ func NewAPI(endpoint string, postgres *db.DB, routes APIRouter, handlers APIHand
 	return newAPI
 }
 
-func NewAUTH(endpoint string, postgres *db.DB, routes AuthRouter, handlers AuthHandler, business AuthBusiness, echo *echo.Echo) *AUTH {
+func NewAUTH(endpoint string, postgres *db.DatabaseConnection, routes AuthRouter, handlers AuthHandler, business AuthBusiness, echo *echo.Echo) *AUTH {
 	newAPI := &AUTH{
 		ApiEndpoint: endpoint,
 		ApiHandler:  handlers,

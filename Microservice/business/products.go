@@ -8,14 +8,14 @@ import (
 )
 
 type ProductBusiness struct {
-	Postgres *db.DB
+	Postgres *db.DatabaseConnection
 }
 
 func NewProductBusiness() *ProductBusiness {
 	return &ProductBusiness{}
 }
 
-func (b *ProductBusiness) Connect(dbConnection *db.DB) error {
+func (b *ProductBusiness) Connect(dbConnection *db.DatabaseConnection) error {
 	b.Postgres = dbConnection
 	return nil
 }

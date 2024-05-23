@@ -1,8 +1,9 @@
 package routes
 
 import (
-	"example.com/apis"
 	"github.com/labstack/echo/v4"
+
+	"example.com/apis"
 )
 
 type AuthRoutes struct {
@@ -13,8 +14,7 @@ func NewAuthRoutes() *AuthRoutes {
 }
 
 func (r *AuthRoutes) Connect(endPoint string, AuthHandler apis.AuthHandler, echo *echo.Echo) error {
-	echo.GET(endPoint, AuthHandler.GET)
-	echo.POST(endPoint, AuthHandler.POST)
+	echo.POST(endPoint, AuthHandler.Authentication)
 
 	return nil
 }
