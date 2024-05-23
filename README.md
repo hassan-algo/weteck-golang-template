@@ -10,9 +10,9 @@ In microservices, you'll find `builder.sh` file. You can use that file to create
 ```./builder.sh NewComponent```
 
 use PascalCase to add the new component.
-It will create new files in the following folders
-|_ Microservice
-  |_business/
-  |_handlers/
-  |_routes/
-  |_structs/
+It will create new files in the following folders <br>
+|_ Microservice <br>
+..|_business/ <br>
+..|_handlers/ <br>
+..|_routes/ <br>
+..|_structs/ <br>
